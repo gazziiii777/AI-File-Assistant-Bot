@@ -24,6 +24,11 @@ router = Router()
 
 
 @router.message(CommandStart())
+async def cmd_start(message: Message):
+    await message.answer('Првиет!')
+
+
+@router.message(Command('question'))
 async def cmd_start(message: Message, state: FSMContext):
     await state.set_state(Ask.question)
     await message.answer('Првиет! Задай свой вопрос')
@@ -38,7 +43,7 @@ async def ask_question(message: Message, state: FSMContext):
     await state.clear()
 
 
-@router.message(Command('question'))
+@router.message(Command('test'))
 async def cmd_question(message: Message, state: FSMContext):
     await state.set_state(Question.answer)
     text = await load_documents_fragment()
