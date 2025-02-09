@@ -20,7 +20,7 @@ AI File Assistant Bot/
 │ ├── handlers.py
 │ └──openai_client.py
 ├──data/
-│ └── .txt
+│ └── example.txt
 ├── config.py
 ├── .gitignore
 ├── embedding.db
