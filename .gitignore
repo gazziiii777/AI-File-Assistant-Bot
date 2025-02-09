@@ -3,3 +3,4 @@
 __pycache__
 embeddings.db
 config.py
+data/*
