@@ -6,7 +6,7 @@ from aiogram.types import Message
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
-from app.openai_client import ask_openai, generate_question, check_answer
+from app.openai_client import ask_openai, generate_question_and_answer, check_answer
 from app.embedding import load_documents_fragment
 
 
@@ -47,8 +47,9 @@ async def ask_question(message: Message, state: FSMContext):
 async def cmd_question(message: Message, state: FSMContext):
     await state.set_state(Question.answer)
     text = await load_documents_fragment()
-    question = await generate_question(text)
-    await state.update_data(text=text, question=question)
+    question, answer = await generate_question_and_answer(text)
+    print(answer)
+    await state.update_data(text=text, question=question, correct_answer=answer)
     await message.answer(question)
 
 
@@ -56,6 +57,6 @@ async def cmd_question(message: Message, state: FSMContext):
 async def ask_question(message: Message, state: FSMContext):
     await state.update_data(answer=message.text)
     data = await state.get_data()
-    response = await check_answer(data['question'], data['answer'], data['text'])
+    response = await check_answer(data['question'], data['answer'], data['correct_answer'])
     await message.answer(response)
     await state.clear()
