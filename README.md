@@ -47,7 +47,8 @@ Create a `config.py` file with the following fields:
 TOKEN = "your_bot_token"
 OPENAI_API_KEY = "your_openai_api_key"
 DATA_DIR = "path/to/data"  
-DB_PATH = "path/to/your.db"  
+DB_PATH = "path/to/your.db" 
+PROXI = "" 
 ```
 ##### 4. Adding Files
 Place your `.txt` documents inside the `data/` folder. These files will be used for answering questions and generating quizzes.
