@@ -26,15 +26,15 @@ async def initialize_documents():
 async def ask_openai(query):
     """Запрашивает ответ у OpenAI с найденным контекстом"""
     context = await find_relevant_document(query, documents)
-
+    print(context)
     response = await client.chat.completions.create(
         model="gpt-4o",
         messages=[
             {"role": "system",
-                "content": "Отвечай только на основе предоставленного контекста."},
+                "content": "Отвечай только на основе предоставленного контекста. В контексте точно есть ответ"},
             {"role": "user", "content": f"Контекст: {context}\nВопрос: {query}"}
         ],
-        temperature=0.7
+
     )
 
     return response.choices[0].message.content
@@ -49,7 +49,7 @@ async def generate_question_and_answer(text):
         model="gpt-4o",
         messages=[{"role": "user", "content": prompt}]
     )
-    
+
     output = response.choices[0].message.content.strip()
     print(output)
     if "Вопрос:" in output and "Ответ:" in output:
@@ -57,7 +57,7 @@ async def generate_question_and_answer(text):
         question = question.replace("Вопрос:", "").strip()
         answer = answer.strip()
         return question, answer
-    
+
     return None, None
 
 
@@ -77,4 +77,3 @@ async def check_answer(question, user_answer, correct_answer):
     )
 
     return response.choices[0].message.content.strip()
-
