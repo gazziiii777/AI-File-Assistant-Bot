@@ -21,7 +21,8 @@ async def main():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)  # на проде закомментировать, т.к. вывод в терминал занимает много времени
+    # на проде закомментировать, т.к. вывод в терминал занимает много времени
+    logging.basicConfig(level=logging.INFO)
     try:
         asyncio.run(main())
     except KeyboardInterrupt:

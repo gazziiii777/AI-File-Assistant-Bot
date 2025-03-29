@@ -1,10 +1,20 @@
 import openai
-from config import OPENAI_API_KEY
+from config import OPENAI_API_KEY, PROXI
 from app.embedding import find_relevant_document, load_documents
+import httpx
+
 
 documents = {}
 
-client = openai.AsyncOpenAI(api_key=OPENAI_API_KEY)  # Новый клиент вместо старого вызова
+proxies = PROXI  # Replace with actual proxy
+transport = httpx.AsyncHTTPTransport(proxy=proxies)
+
+http_client = httpx.AsyncClient(transport=transport)
+
+client = openai.AsyncOpenAI(
+    api_key=OPENAI_API_KEY,
+    http_client=http_client  # передаем кастомный HTTP-клиент
+)
 
 
 async def initialize_documents():
@@ -20,7 +30,8 @@ async def ask_openai(query):
     response = await client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "Отвечай только на основе предоставленного контекста."},
+            {"role": "system",
+                "content": "Отвечай только на основе предоставленного контекста."},
             {"role": "user", "content": f"Контекст: {context}\nВопрос: {query}"}
         ],
         temperature=0.7

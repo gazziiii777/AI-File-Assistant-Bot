@@ -1,0 +1,5 @@
+TOKEN = ""
+OPENAI_API_KEY = ""
+DATA_DIR = ""
+DB_PATH = ""
+PROXI = ""
