@@ -56,7 +56,7 @@ async def load_documents() -> Dict[str, Dict[str, Any]]:
             else:
                 # Генерируем новый эмбеддинг
                 embedding = model.encode(content)
-                await save_embedding(filename, file_hash, embedding.tobytes())
+                await save_embedding(filename, file_hash, embedding)
 
             documents[filename] = {
                 "data": content,
@@ -81,6 +81,7 @@ async def find_relevant_document(query: str, documents: Dict[str, Dict[str, Any]
     Returns:
         Текст наиболее релевантного документа
     """
+    print(documents)
     if not documents:
         return ""
 
